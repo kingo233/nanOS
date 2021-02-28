@@ -25,7 +25,6 @@
 
 //类型的定义
 
-typedef bool int;
 /* Explicitly-sized versions of integer types */
 typedef char int8_t;
 typedef unsigned char uint8_t;
