@@ -6,4 +6,4 @@ fi
 if [[ ! -d bin   ]];then
     mkdir bin
 fi
-make nanOS.img
+make bin/nanOS.img

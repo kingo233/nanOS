@@ -6,8 +6,10 @@ objdir = obj
 bindir = bin
 bootblock = $(bindir)/bootblock
 bootblockobj = $(objdir)/bootblock.o
-CFLAGS := -march=i686 -fno-builtin -fno-PIC -Wall -ggdb -m32 -gstabs -nostdinc -fno-stack-protector
+CFLAGS := -march=i686 -fno-builtin -fno-PIC -Wall -ggdb -m32 -gstabs -nostdinc -fno-stack-protector 
 signtool = bin/sign
+includefiles = libs
+CFLAGS += -I$(includefiles)
 # 上面的意思依次为指定编译的目标架构，禁用内置函数，允许使用引用绝对地址的代码，打开编译器警
 # 告信息，生成32位可执行文件，生成stab格式的调试信息，不使用C中的默认库，启用栈溢出保护机制
 all:
@@ -24,7 +26,11 @@ $(bootblockobj):boot/*
 	ld -m    elf_i386 -nostdlib -N -e start -Ttext 0x7C00 obj/bootasm.o obj/bootmain.o -o obj/bootblock.o
 $(signtool): tools/sign.c 
 	gcc -o bin/sign $^
-.PHONY: clean
+.PHONY: clean debug
 
 clean:
 	rm -rf obj bin
+
+debug: all
+	qemu-system-i386 -S -s -parallel stdio -hda $(target) -serial null &
+	gdb -q -tui -x tools/gdbinit 
