@@ -14,15 +14,15 @@ gdtdesc:
     .word 0x17                                      # sizeof(gdt) - 1
     .long gdt                                       # address gdt
 #real mode code
-.globl _start
-_start:
+.globl start
+start:
     .code16         #code for 16-bit mode
     cli             #disable interrupts
     cld             #string operations increment
 
 
     #set up important data segment registers(DS,ES,SS)
-    movw $0 %ax     #mow,w stand for 16 bit
+    movw $0x0, %ax     #mow,w stand for 16 bit
     movw %ax, %ds
     movw %ax,%es
     movw %ax,%ss
@@ -70,9 +70,8 @@ _start:
 
         # Set up the stack pointer and call into C. The stack region is from 0--start(0x7c00)
         movl $0,%ebp
-        movl $_start,%esp
+        movl $start,%esp
         call bootmain
-        # if bootmain returns(but it shouldn't),loop
         spin:
             jmp spin
 
