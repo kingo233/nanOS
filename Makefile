@@ -6,7 +6,7 @@ objdir = obj
 bindir = bin
 bootblock = $(bindir)/bootblock
 bootblockobj = $(objdir)/bootblock.o
-CFLAGS := -march=i686 -fno-builtin -fno-PIC -Wall -ggdb -m32 -gstabs -nostdinc -fno-stack-protector 
+CFLAGS := -march=i686 -fno-builtin -fno-PIC -Wall -ggdb -m32 -gstabs -nostdinc -fno-stack-protector -Os 
 signtool = bin/sign
 includefiles = libs
 CFLAGS += -I$(includefiles)
